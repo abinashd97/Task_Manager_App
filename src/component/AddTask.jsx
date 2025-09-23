@@ -4,31 +4,57 @@ import { TaskContext } from "./TaskContext";
 class AddTask extends Component {
   static contextType = TaskContext;
 
-  state = { text: "" };
+  state = { text1: "", text2: "" };
 
-  handleChange = (e) => {
-    this.setState({ text: e.target.value });
+  handleChange1 = (e) => {
+    this.setState({ text1: e.target.value });
+  };
+
+  handleChange2 = (e) => {
+    this.setState({ text2: e.target.value });
   };
 
   handleSubmit = (e) => {
     e.preventDefault();
-    if (this.state.text.trim()) {
-      this.context.addTask(this.state.text);
-      this.setState({ text: "" });
+    const { text1, text2 } = this.state;
+    if (text1.trim() || text2.trim()) {
+      this.context.addTask({
+        id: Date.now(),
+        title: text1,
+        description: text2,
+        completed: false,
+      });
+      this.setState({ text1: "", text2: "" });
     }
   };
 
   render() {
     return (
-      <form class="add-task-form" onSubmit={this.handleSubmit}>
-        <input
-          class="add-task-input"
-          type="text"
-          value={this.state.text}
-          onChange={this.handleChange}
-          placeholder="Add new task"
-        />
-        <button class="add-task-btn" type="submit">
+      <form className="add-task-form" onSubmit={this.handleSubmit}>
+        <div
+          className="input-row"
+          style={{ display: "flex", gap: "14px", marginBottom: "14px" }}
+        >
+          <input
+            className="add-task-input"
+            type="text"
+            value={this.state.text1}
+            onChange={this.handleChange1}
+            placeholder="Add new task"
+          />
+          <input
+            className="add-task-input"
+            type="text"
+            value={this.state.text2}
+            onChange={this.handleChange2}
+            placeholder="Add Description"
+          />
+        </div>
+        <button
+          className="add-task-btn"
+          type="submit"
+          style={{ width: "100%" }}
+        >
           Add
         </button>
       </form>

@@ -1,5 +1,5 @@
 import React from "react";
-import { TaskProvider } from "./component/TaskContext";
+import TaskProvider from "./component/TaskContext";
 import ErrorBoundary from "./component/ErrorBoundary";
 import TaskList from "./component/TaskList";
 import AddTask from "./component/AddTask";

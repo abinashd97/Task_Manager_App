@@ -1,19 +1,15 @@
 import React, { createContext, Component } from "react";
 
-const TaskContext = createContext();
+export const TaskContext = createContext();
 
 class TaskProvider extends Component {
   state = {
-    tasks: [
-      { id: 1, text: "Learn React Context API", completed: false },
-      { id: 2, text: "Build a Task Manager App", completed: false },
-    ],
+    tasks: [],
   };
 
-  addTask = (text) => {
-    const newTask = { id: Date.now(), text, completed: false };
+  addTask = (task) => {
     this.setState((prevState) => ({
-      tasks: [...prevState.tasks, newTask],
+      tasks: [...prevState.tasks, task],
     }));
   };
 
@@ -31,6 +27,16 @@ class TaskProvider extends Component {
     }));
   };
 
+  updateTask = (id, newTitle, newDescription) => {
+    this.setState((prevState) => ({
+      tasks: prevState.tasks.map((task) =>
+        task.id === id
+          ? { ...task, title: newTitle, description: newDescription }
+          : task
+      ),
+    }));
+  };
+
   render() {
     return (
       <TaskContext.Provider
@@ -39,6 +45,7 @@ class TaskProvider extends Component {
           addTask: this.addTask,
           toggleTask: this.toggleTask,
           removeTask: this.removeTask,
+          updateTask: this.updateTask,
         }}
       >
         {this.props.children}
@@ -47,4 +54,4 @@ class TaskProvider extends Component {
   }
 }
 
-export { TaskProvider, TaskContext };
+export default TaskProvider;
