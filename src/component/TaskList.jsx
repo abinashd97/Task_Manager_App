@@ -60,7 +60,8 @@ class TaskList extends Component {
             const isEditing = editingId === task.id;
             return (
               <tr key={task.id}>
-                <td
+                {
+                  /* <td
                   className="task-title"
                   style={{
                     fontWeight: "600",
@@ -72,15 +73,41 @@ class TaskList extends Component {
                       type="text"
                       value={editTitle}
                       onChange={this.handleEditTitleChange}
-                      style={{ width: "100%" }}
+                      className="task-edit-input"
                     />
                   ) : (
                     task.title || "(No title)"
                   )}
-                </td>
+                </td> */
+                  <td
+                    className="task-title"
+                    style={{
+                      fontWeight: "600",
+                      textDecoration: task.completed ? "line-through" : "none",
+                      color: task.completed ? "#29532bff" : "inherit",
+                      // force override
+                      // color: task.completed ? "#888888 !important" : "inherit",
+                    }}
+                  >
+                    {isEditing ? (
+                      <input
+                        type="text"
+                        value={editTitle}
+                        onChange={this.handleEditTitleChange}
+                        className="task-edit-input"
+                        style={{
+                          color: task.completed ? "#000000ff" : "#000000ff",
+                        }}
+                      />
+                    ) : (
+                      task.title || "(No title)"
+                    )}
+                  </td>
+                }
                 <td
                   style={{
-                    color: "#fdfdfdff",
+                    fontWeight: "600",
+                    color: task.completed ? "#29532bff" : "inherit",
                     textDecoration: task.completed ? "line-through" : "none",
                   }}
                 >
@@ -89,13 +116,21 @@ class TaskList extends Component {
                       type="text"
                       value={editDescription}
                       onChange={this.handleEditDescriptionChange}
-                      style={{ width: "100%" }}
+                      className="task-edit-input"
                     />
                   ) : (
                     task.description || "(No description)"
                   )}
                 </td>
-                <td>{task.completed ? "Completed" : "Pending"}</td>
+                <td
+                  style={{
+                    color: task.completed ? "#00ff0dff" : "#bd1212ff", // green for completed, red for pending
+                    fontWeight: "bold",
+                  }}
+                >
+                  {task.completed ? "Completed" : "Pending"}
+                </td>
+
                 <td>
                   <div
                     style={{

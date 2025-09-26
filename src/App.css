@@ -7,8 +7,8 @@
 
 /* Root theme colors */
 :root {
-  --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  --primary-gradient: linear-gradient(135deg, #0325bd 0%, #975ded 100%);
+  --accent-gradient: linear-gradient(135deg, #0dff09 0%, #00f2fe 100%);
   --glass-bg: rgba(255, 255, 255, 0.1);
   --glass-border: rgba(255, 255, 255, 0.3);
   --text-primary: #fff;
@@ -21,7 +21,7 @@
 /* Background */
 body {
   min-height: 100vh;
-  background: linear-gradient(135deg, #fefeff, #7f88ee);
+  background: linear-gradient(135deg, #c5c5f5, #172af9);
   font-family: 'Poppins', sans-serif;
   color: var(--text-primary);
   display: flex;
@@ -70,23 +70,7 @@ p {
   margin: 0 auto 2rem auto;
 }
 
-/* Button */
-.cta-btn {
-  background: var(--accent-gradient);
-  color: white;
-  font-weight: 600;
-  padding: 12px 30px;
-  border-radius: 30px;
-  border: none;
-  cursor: pointer;
-  box-shadow: var(--shadow);
-  transition: var(--transition);
-}
 
-.cta-btn:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 12px 40px rgba(79, 172, 254, 0.6);
-}
 
 /* Link style */
 a {
@@ -309,4 +293,27 @@ a:hover {
 
 .task-btn.delete:hover {
   color: #ff6b6b;
+}
+.task-edit-input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 2px solid #0f6418;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  outline: none;
+  background: linear-gradient(145deg, #e0f7e9, #a7d8a5);
+  box-shadow: 0 0 12px #4caf50aa;
+  transition: box-shadow 0.3s ease;
+}
+
+.task-edit-input:focus {
+  box-shadow: 0 0 20px #388e3c;
+  border-color: #388e3c;
+  background: linear-gradient(145deg, #c3f0c3, #85bf82);
+}
+.task-title {
+  font-weight: 600;
+  /* Remove color property or set to inherit */
+  color: inherit;
 }
