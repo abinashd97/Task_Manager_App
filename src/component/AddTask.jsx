@@ -4,7 +4,7 @@ import { TaskContext } from "./TaskContext";
 class AddTask extends Component {
   static contextType = TaskContext;
 
-  state = { text1: "", text2: "" };
+  state = { text1: "", text2: "", loading: false, error: "" };
 
   handleChange1 = (e) => {
     this.setState({ text1: e.target.value });
@@ -14,23 +14,38 @@ class AddTask extends Component {
     this.setState({ text2: e.target.value });
   };
 
-  handleSubmit = (e) => {
+  handleSubmit = async (e) => {
     e.preventDefault();
     const { text1, text2 } = this.state;
-    if (text1.trim() || text2.trim()) {
-      this.context.addTask({
-        id: Date.now(),
-        title: text1,
-        description: text2,
+    
+    if (!text1.trim() && !text2.trim()) {
+      this.setState({ error: "Please enter at least a title or description" });
+      return;
+    }
+
+    this.setState({ loading: true, error: "" });
+    
+    try {
+      await this.context.addTask({
+        title: text1.trim(),
+        description: text2.trim(),
         completed: false,
       });
-      this.setState({ text1: "", text2: "" });
+      this.setState({ text1: "", text2: "", error: "" });
+    } catch (error) {
+      this.setState({ error: "Failed to create task. Please try again." });
+    } finally {
+      this.setState({ loading: false });
     }
   };
 
   render() {
+    const { loading, error } = this.state;
+    
     return (
-      <form className="add-task-form" onSubmit={this.handleSubmit}>
+      <div>
+        {error && <div className="error-message">{error}</div>}
+        <form className="add-task-form" onSubmit={this.handleSubmit}>
         <div
           className="input-row"
           style={{ display: "flex", gap: "14px", marginBottom: "14px" }}
@@ -54,10 +69,12 @@ class AddTask extends Component {
           className="add-task-btn"
           type="submit"
           style={{ width: "100%" }}
+          disabled={loading}
         >
-          Add
+          {loading ? "Adding..." : "Add"}
         </button>
-      </form>
+        </form>
+      </div>
     );
   }
 }

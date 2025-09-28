@@ -22,12 +22,17 @@ class TaskList extends Component {
     this.setState({ editingId: null, editTitle: "", editDescription: "" });
   };
 
-  saveEdit = () => {
+  saveEdit = async () => {
     const { editTitle, editDescription, editingId } = this.state;
     if (editTitle.trim() || editDescription.trim()) {
-      this.context.updateTask(editingId, editTitle, editDescription);
+      try {
+        await this.context.updateTask(editingId, editTitle, editDescription);
+        this.cancelEdit();
+      } catch (error) {
+        console.error("Error updating task:", error);
+        // Keep editing mode open on error
+      }
     }
-    this.cancelEdit();
   };
 
   handleEditTitleChange = (e) => {
@@ -39,8 +44,16 @@ class TaskList extends Component {
   };
 
   render() {
-    const { tasks, toggleTask, removeTask } = this.context;
+    const { tasks, loading, error, toggleTask, removeTask } = this.context;
     const { editingId, editTitle, editDescription } = this.state;
+
+    if (loading && tasks.length === 0) {
+      return <div style={{ textAlign: 'center', padding: '20px' }}>Loading tasks...</div>;
+    }
+
+    if (error) {
+      return <div className="error-message">{error}</div>;
+    }
 
     return (
       <table
@@ -173,6 +186,7 @@ class TaskList extends Component {
                           onClick={() => toggleTask(task.id)}
                           title="Toggle Done"
                           style={{ padding: "6px 10px" }}
+                          disabled={loading}
                         >
                           ✅
                         </button>
@@ -181,6 +195,7 @@ class TaskList extends Component {
                           onClick={() => removeTask(task.id)}
                           title="Delete"
                           style={{ padding: "6px 10px" }}
+                          disabled={loading}
                         >
                           🗑️
                         </button>
