@@ -17,7 +17,9 @@ class TaskProvider extends Component {
       const response = await taskService.getAllTasks();
       this.setState({ tasks: response.data || [] });
     } catch (error) {
-      this.setState({ error: error.response?.data?.message || "Failed to load tasks" });
+      this.setState({
+        error: error.response?.data?.message || "Failed to load tasks",
+      });
       console.error("Error loading tasks:", error);
     } finally {
       this.setState({ loading: false });
@@ -33,7 +35,9 @@ class TaskProvider extends Component {
         tasks: [...prevState.tasks, response.data],
       }));
     } catch (error) {
-      this.setState({ error: error.response?.data?.message || "Failed to create task" });
+      this.setState({
+        error: error.response?.data?.message || "Failed to create task",
+      });
       console.error("Error creating task:", error);
       throw error; // Re-throw so the UI can handle it
     } finally {
@@ -42,11 +46,11 @@ class TaskProvider extends Component {
   };
 
   toggleTask = async (id) => {
-    const task = this.state.tasks.find(t => t.id === id);
+    const task = this.state.tasks.find((t) => t.id === id);
     if (!task) return;
 
     const updatedTask = { ...task, completed: !task.completed };
-    
+
     this.setState({ loading: true, error: null });
     try {
       await taskService.updateTask(id, updatedTask);
@@ -57,7 +61,9 @@ class TaskProvider extends Component {
         ),
       }));
     } catch (error) {
-      this.setState({ error: error.response?.data?.message || "Failed to update task" });
+      this.setState({
+        error: error.response?.data?.message || "Failed to update task",
+      });
       console.error("Error updating task:", error);
     } finally {
       this.setState({ loading: false });
@@ -73,7 +79,9 @@ class TaskProvider extends Component {
         tasks: prevState.tasks.filter((task) => task.id !== id),
       }));
     } catch (error) {
-      this.setState({ error: error.response?.data?.message || "Failed to delete task" });
+      this.setState({
+        error: error.response?.data?.message || "Failed to delete task",
+      });
       console.error("Error deleting task:", error);
     } finally {
       this.setState({ loading: false });
@@ -81,11 +89,15 @@ class TaskProvider extends Component {
   };
 
   updateTask = async (id, newTitle, newDescription) => {
-    const task = this.state.tasks.find(t => t.id === id);
+    const task = this.state.tasks.find((t) => t.id === id);
     if (!task) return;
 
-    const updatedTask = { ...task, title: newTitle, description: newDescription };
-    
+    const updatedTask = {
+      ...task,
+      title: newTitle,
+      description: newDescription,
+    };
+
     this.setState({ loading: true, error: null });
     try {
       await taskService.updateTask(id, updatedTask);
@@ -96,7 +108,9 @@ class TaskProvider extends Component {
         ),
       }));
     } catch (error) {
-      this.setState({ error: error.response?.data?.message || "Failed to update task" });
+      this.setState({
+        error: error.response?.data?.message || "Failed to update task",
+      });
       console.error("Error updating task:", error);
     } finally {
       this.setState({ loading: false });
